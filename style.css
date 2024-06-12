@@ -167,11 +167,25 @@ h1 {
         overflow: hidden;
     }
 
+    h1 {
+        font-size: 1.2rem;
+    }
+
     .instructions {
         margin-left: 10px;
         width: 90vw;
         height: 15vh;
         overflow: hidden;
+    }
+
+    .choices img {
+        display: flex;
+        max-height: 85px;
+        transition: .3s ease;
+    }
+
+    .result-image {
+        max-height: 65px;
     }
 
     .result {
@@ -188,6 +202,8 @@ h1 {
         position: relative;
         justify-content: center;
         align-items: center;
+        max-height: fit-content;
+        z-index: 1;
     }
 }
 

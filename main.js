@@ -68,6 +68,7 @@ function playGame(userChoice) {
     if (userChoice === computerChoice) {
       result = "It's a tie!";
       ties++;
+      document.getElementById("tieSound").play();
     } else if (
       (userChoice === "rock" && computerChoice === "scissors") ||
       (userChoice === "paper" && computerChoice === "rock") ||
@@ -75,9 +76,11 @@ function playGame(userChoice) {
     ) {
       result = "You win!";
       wins++;
+      document.getElementById("winSound").play();
     } else {
       result = "You lose!";
       losses++;
+      document.getElementById("loseSound").play();
     }
 
     document.getElementById("outcome").innerText = result; // Just set the result
@@ -115,7 +118,7 @@ function updateTally() {
   } else if (!hasTied && ties >= 10) {
     hasTied = true;
     displayMessage(
-      "You reached 10 ties! Just be better bro what's your problem?"
+      "You reached 10 ties! Just be better, bro what's your problem?"
     );
   }
 }
