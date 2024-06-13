@@ -112,9 +112,7 @@ function updateTally() {
 
   if (!hasWon && wins >= 10) {
     hasWon = true;
-    displayMessage(
-      "You reached 10 wins! You definitely get laid! What a Cool Cat! :D"
-    );
+    displayMessage("You reached 10 wins! What a Cool Cat! :D");
   } else if (!hasLost && losses >= 10) {
     hasLost = true;
     displayMessage("You reached 10 losses! Must suck to suck lmao!");
