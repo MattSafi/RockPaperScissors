@@ -10,9 +10,14 @@ let hasWon = false;
 let hasLost = false;
 let hasTied = false;
 
+const countdown = document.getElementById("countdown");
+const startButton = document.getElementById("start-button");
+const userChoiceImg = document.getElementById("user-choice-img");
+const computerChoiceImg = document.getElementById("computer-choice-img");
+
 function startGame() {
-  document.getElementById("countdown").style.visibility = "visible";
-  document.getElementById("start-button").disabled = true;
+  countdown.style.visibility = "visible";
+  startButton.disabled = true;
   userHasChosen = false;
 
   const choices = document.querySelectorAll(".choice");
@@ -40,6 +45,7 @@ function startGame() {
   }, 1000);
 }
 
+const newLocal = document.getElementById("computer-choice-img");
 function playGame(userChoice) {
   if (!userHasChosen) {
     userHasChosen = true;
@@ -58,17 +64,14 @@ function playGame(userChoice) {
 
     lastComputerChoice = computerChoice;
 
-    document.getElementById("user-choice-img").src = `images/${userChoice}.jpg`;
-    document.getElementById(
-      "computer-choice-img"
-    ).src = `images/${computerChoice}.jpg`;
+    userChoiceImg.src = `images/${userChoice}.jpg`;
+    computerChoiceImg.src = `images/${computerChoice}.jpg`;
 
     let result = "";
 
     if (userChoice === computerChoice) {
       result = "It's a tie!";
       ties++;
-      document.getElementById("tieSound").play();
     } else if (
       (userChoice === "rock" && computerChoice === "scissors") ||
       (userChoice === "paper" && computerChoice === "rock") ||
@@ -76,22 +79,22 @@ function playGame(userChoice) {
     ) {
       result = "You win!";
       wins++;
-      document.getElementById("winSound").play();
     } else {
       result = "You lose!";
       losses++;
-      document.getElementById("loseSound").play();
     }
 
     document.getElementById("outcome").innerText = result; // Just set the result
     updateTally();
-    document.getElementById("countdown").style.visibility = "hidden"; // Hide countdown
+    userChoiceImg.style.display = "block";
+    computerChoiceImg.style.display = "block";
+    countdown.style.visibility = "hidden"; // Hide countdown
     document.getElementById("start-button").disabled = false;
   }
 }
 
 function endGame() {
-  document.getElementById("countdown").classList.add("hidden");
+  countdown.classList.add("hidden");
   document.getElementById("start-button").disabled = false;
 
   const choices = document.querySelectorAll(".choice");
@@ -110,7 +113,7 @@ function updateTally() {
   if (!hasWon && wins >= 10) {
     hasWon = true;
     displayMessage(
-      "You reached 10 wins! What a Cool Cat! :D"
+      "You reached 10 wins! You definitely get laid! What a Cool Cat! :D"
     );
   } else if (!hasLost && losses >= 10) {
     hasLost = true;
