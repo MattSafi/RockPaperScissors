@@ -1,47 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock, Paper, Scissors</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="instructions">
-        <h1>
-            <u>Instructions:</u>
-            <br>&#x2022; Lmao you really don't know how to play this game?
-            <br>&#x2022; It's okay here's a short tutorial: <a href="https://www.youtube.com/watch?v=ND4fd6yScBM" target="_blank">Learn how to play</a>
-            <br>&#x2022; Rock beats Scissors, Scissors beats Paper, Paper beats rock.
-        </h1>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RockPaperScissors</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="gameboard">
+      <div class="instructions">
+        <p>
+          &#x2022; Rock beats Scissors, <br />&#x2022; Scissors beats Paper,
+          <br />&#x2022; Paper beats rock.
+        </p>
+      </div>
 
-    <div class="container">
-        <h1>Rock, Paper, Scissors</h1>
-        <button id="start-button" onclick="startGame()">Start Game</button>
-        <div id="countdown" class="hidden"></div>
-        <div class="choices">
-            <button class="choice" id="rock" onclick="playGame('rock')" disabled><img src="images/rock.jpg" alt="Rock"></button>
-            <button class="choice" id="paper" onclick="playGame('paper')" disabled><img src="images/paper.jpg" alt="Paper"></button>
-            <button class="choice" id="scissors" onclick="playGame('scissors')" disabled><img src="images/scissors.jpg" alt="Scissors"></button>
-        </div>
-        <div class="result" style="margin-left: 25%;">
-        <div>
-            <p id="user-choice">You Chose: <br><img id="user-choice-img" class="result-image" alt="Your Choice"></p>
-        </div>
-        <div>
-            <p id="computer-choice">Opponent Chose: <br><img id="computer-choice-img" class="result-image" alt="Opponent Choice"></p>
-        </div>
-           <div class="outContainer">
-            <strong><u><p id="outcome"></p></u></strong>
-            <p id="tally">Wins: 0 <br> Losses: 0 <br> Ties: 0</p></div>
-        </div>
-        
+      <div class="tally" id="tally">Wins: 0 - Draws: 0 - Losses: 0</div>
+
+      <div class="playmat" id="playmat">
+        <button class="choice" id="rock" onclick="playGame('rock')">
+          <img src="images/rock.jpg" alt="rock" />
+        </button>
+        <button class="choice" id="paper" onclick="playGame('paper')">
+          <img src="images/paper.jpg" alt="paper" />
+        </button>
+        <button class="choice" id="scissors" onclick="playGame('scissors')">
+          <img src="images/scissors.jpg" alt="scissors" />
+        </button>
+      </div>
+      <div class="countdown" id="countdown"></div>
+      <div class="result">
+        <p id="opponent-choice"></p>
+        <img
+          id="opponent-image"
+          alt="Opponent's choice"
+          style="display: none"
+        />
+        <p id="result-message"></p>
+        <button id="reset-button" style="display: none" onclick="resetGame()">
+          New Game
+        </button>
+      </div>
     </div>
-    <footer>
-        <em>a game by mattsafi</em>
-    </footer>
 
     <script src="main.js"></script>
-</body>
+  </body>
 </html>

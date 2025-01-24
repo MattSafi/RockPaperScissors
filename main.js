@@ -1,129 +1,93 @@
-let countdownInterval;
-let userHasChosen = false;
-let lastComputerChoice = "";
-
+// Initialize tally counters
 let wins = 0;
+let draws = 0;
 let losses = 0;
-let ties = 0;
 
-let hasWon = false;
-let hasLost = false;
-let hasTied = false;
+function playGame(playerChoice) {
+  const countdownElement = document.getElementById("countdown");
+  const opponentChoiceElement = document.getElementById("opponent-choice");
+  const opponentImage = document.getElementById("opponent-image");
+  const resultMessageElement = document.getElementById("result-message");
+  const resetButton = document.getElementById("reset-button");
+  const tallyElement = document.getElementById("tally");
 
-const countdown = document.getElementById("countdown");
-const startButton = document.getElementById("start-button");
-const userChoiceImg = document.getElementById("user-choice-img");
-const computerChoiceImg = document.getElementById("computer-choice-img");
-
-function startGame() {
-  countdown.style.visibility = "visible";
-  startButton.disabled = true;
-  userHasChosen = false;
-
-  const choices = document.querySelectorAll(".choice");
-  choices.forEach((choice) => {
-    choice.disabled = false;
+  // Hide other buttons
+  const buttons = document.querySelectorAll(".choice");
+  buttons.forEach((button) => {
+    button.disabled = true;
+    if (button.id !== playerChoice) {
+      button.style.display = "none";
+    }
   });
 
-  let timeLeft = 10;
-  document.getElementById(
-    "countdown"
-  ).innerText = `Time left to choose: ${timeLeft} seconds`;
+  // Show countdown
+  let countdown = 3;
+  countdownElement.style.visibility = "visible";
+  countdownElement.textContent = countdown;
 
-  countdownInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById(
-      "countdown"
-    ).innerText = `Time left to choose: ${timeLeft} seconds`;
+  const countdownInterval = setInterval(() => {
+    countdown--;
+    countdownElement.textContent = countdown;
 
-    if (timeLeft === 0) {
+    if (countdown === 0) {
       clearInterval(countdownInterval);
-      if (!userHasChosen) {
-        endGame();
+      countdownElement.style.visibility = "hidden";
+
+      // Generate opponent's random choice
+      const choices = ["rock", "paper", "scissors"];
+      const opponentChoice =
+        choices[Math.floor(Math.random() * choices.length)];
+
+      // Determine the winner
+      let resultMessage;
+      if (playerChoice === opponentChoice) {
+        resultMessage = "It's a draw!";
+        draws++;
+      } else if (
+        (playerChoice === "rock" && opponentChoice === "scissors") ||
+        (playerChoice === "scissors" && opponentChoice === "paper") ||
+        (playerChoice === "paper" && opponentChoice === "rock")
+      ) {
+        resultMessage = "You win!";
+        wins++;
+      } else {
+        resultMessage = "You lose!";
+        losses++;
       }
+
+      // Update tally
+      tallyElement.textContent = `Wins: ${wins} - Draws: ${draws} - Losses: ${losses}`;
+
+      // Display the opponent's choice image and result
+      opponentChoiceElement.textContent = `Opponent chose:`;
+      opponentImage.src = `images/${opponentChoice}.jpg`; // Use images matching your file names
+      opponentImage.style.display = "block";
+      resultMessageElement.textContent = resultMessage;
+
+      // Show the reset button
+      resetButton.style.display = "block";
     }
   }, 1000);
 }
 
-const newLocal = document.getElementById("computer-choice-img");
-function playGame(userChoice) {
-  if (!userHasChosen) {
-    userHasChosen = true;
-    clearInterval(countdownInterval);
-    const choices = document.querySelectorAll(".choice");
-    choices.forEach((choice) => {
-      choice.disabled = true;
-    });
+function resetGame() {
+  const buttons = document.querySelectorAll(".choice");
+  const countdownElement = document.getElementById("countdown");
+  const opponentChoiceElement = document.getElementById("opponent-choice");
+  const opponentImage = document.getElementById("opponent-image");
+  const resultMessageElement = document.getElementById("result-message");
+  const resetButton = document.getElementById("reset-button");
 
-    const choicesArray = ["rock", "paper", "scissors"];
-    let computerChoice;
-
-    do {
-      computerChoice = choicesArray[Math.floor(Math.random() * 3)];
-    } while (computerChoice === lastComputerChoice);
-
-    lastComputerChoice = computerChoice;
-
-    userChoiceImg.src = `images/${userChoice}.jpg`;
-    computerChoiceImg.src = `images/${computerChoice}.jpg`;
-
-    let result = "";
-
-    if (userChoice === computerChoice) {
-      result = "It's a tie!";
-      ties++;
-    } else if (
-      (userChoice === "rock" && computerChoice === "scissors") ||
-      (userChoice === "paper" && computerChoice === "rock") ||
-      (userChoice === "scissors" && computerChoice === "paper")
-    ) {
-      result = "You win!";
-      wins++;
-    } else {
-      result = "You lose!";
-      losses++;
-    }
-
-    document.getElementById("outcome").innerText = result; // Just set the result
-    updateTally();
-    userChoiceImg.style.display = "block";
-    computerChoiceImg.style.display = "block";
-    countdown.style.visibility = "hidden"; // Hide countdown
-    document.getElementById("start-button").disabled = false;
-  }
-}
-
-function endGame() {
-  countdown.classList.add("hidden");
-  document.getElementById("start-button").disabled = false;
-
-  const choices = document.querySelectorAll(".choice");
-  choices.forEach((choice) => {
-    choice.disabled = true;
+  // Reset visibility of all buttons
+  buttons.forEach((button) => {
+    button.style.display = "inline-block";
+    button.disabled = false;
   });
 
-  document.getElementById("outcome").innerText =
-    "Time is up! You didn't make a choice.";
-}
-
-function updateTally() {
-  const tallyElement = document.getElementById("tally");
-  tallyElement.innerHTML = `Wins: ${wins} <br> Losses: ${losses} <br> Ties: ${ties}`;
-
-  if (!hasWon && wins >= 10) {
-    hasWon = true;
-    displayMessage("You reached 10 wins! What a Cool Cat! :D");
-  } else if (!hasLost && losses >= 10) {
-    hasLost = true;
-    displayMessage("You reached 10 losses! Must suck to suck lmao!");
-  } else if (!hasTied && ties >= 10) {
-    hasTied = true;
-    displayMessage(
-      "You reached 10 ties! Just be better, bro what's your problem?"
-    );
-  }
-}
-
-function displayMessage(message) {
-  alert(message);
+  // Hide countdown, opponent's choice, result message, and reset button
+  countdownElement.style.visibility = "hidden";
+  opponentChoiceElement.textContent = "";
+  opponentImage.style.display = "none";
+  resultMessageElement.textContent = "";
+  resetButton.style.display = "none";
 }
